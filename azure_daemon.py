@@ -16,6 +16,13 @@ from PIL import Image
 from io import BytesIO
 ##
 
+##
+import time 
+from time import sleep 
+from sinchsms import SinchSMS 
+from multiprocessing import Process
+##
+
 logging.config.dictConfig(LOGGING)
 
 logger = logging.getLogger('detector')
@@ -51,6 +58,7 @@ class DeviceHiveHandler(Handler):
 
         self._device.send_notification(notification)
 
+f=0
 
 class Daemon(Server):
     encode_params = [cv2.IMWRITE_JPEG_QUALITY, cv2.COLOR_LUV2LBGR]
@@ -84,6 +92,7 @@ class Daemon(Server):
         start_time = time.time()
         frame_num = 0
         fps = 0
+        f=0
         try:
             while self.is_running:
                 ret, frame = cam.read()
@@ -101,9 +110,34 @@ class Daemon(Server):
                     analyze_url, headers=headers, params=params, data=image_data)
                 response.raise_for_status()
                 analysis = response.json()
-                image_caption=""
                 try:
                     image_caption = analysis["description"]["captions"][0]["text"].capitalize()
+                    tags = analysis["description"]["tags"]
+                    if 'man' in tags and f==0:
+                        f=1
+                        number = '918826022510'
+                        app_key = 'e31dabc6-aa8d-46bb-aab8-bfb91b58d13c'
+                        app_secret = 'J7js1xm+m0665hYgrzW6+w=='
+
+                        # enter the message to be sent 
+                        message = 'Alert Triggered'
+
+                        client = SinchSMS(app_key, app_secret) 
+                        print("Sending '%s' to %s" % (message, number)) 
+
+                        response = client.send_message(number, message) 
+                        message_id = response['messageId'] 
+                        response = client.check_status(message_id) 
+
+                        # keep trying unless the status retured is Successful 
+                        while response['status'] != 'Successful': 
+                            print(response['status']) 
+                            time.sleep(1) 
+                            response = client.check_status(message_id) 
+
+                        print(response['status'])
+                    else:
+                        print("wbbb")
                 except:
                     print("Exception occured")
                 # Draw label
@@ -138,7 +172,13 @@ class Daemon(Server):
 
     def get_frame(self):
         return self._detect_frame_data, self._detect_frame_data_id
-
+    
+    def find_match(list_of_tags):
+        word='man'
+        if word in list_of_tags:
+            return True
+        else:
+            return False
 
 if __name__ == '__main__':
     server = Daemon(DeviceHiveHandler, routes=routes)
