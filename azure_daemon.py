@@ -101,26 +101,29 @@ class Daemon(Server):
                     analyze_url, headers=headers, params=params, data=image_data)
                 response.raise_for_status()
                 analysis = response.json()
-                image_caption = analysis["description"]["captions"][0]["text"].capitalize()
-
+                image_caption=""
+                try:
+                    image_caption = analysis["description"]["captions"][0]["text"].capitalize()
+                except:
+                    print("Exception occured")
                 # Draw label
-                (test_width, text_height), baseline = cv2.getTextSize(
-                    image_caption, cv2.FONT_HERSHEY_SIMPLEX, 0.75, 1)
-                end_time = time.time()
-                fps = fps * 0.9 + 1/(end_time - start_time) * 0.1
-                start_time = end_time
+                # (test_width, text_height), baseline = cv2.getTextSize(
+                #     image_caption, cv2.FONT_HERSHEY_SIMPLEX, 0.75, 1)
+                # end_time = time.time()
+                # fps = fps * 0.9 + 1/(end_time - start_time) * 0.1
+                # start_time = end_time
 
                 # Draw additional info
                 frame_info = 'Frame: {0}, FPS: {1:.2f}'.format(frame_num, fps)
                 cv2.putText(frame, image_caption, (10, frame.shape[0]-10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 3, (255, 0, 0), 1)
-                logger.info(frame_info)
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
                 self._detect_frame_data_id = frame_num
                 _, img = cv2.imencode('.jpg', frame, self.encode_params)
                 self._detect_frame_data = img
 
                 frame_num += 1
+                image_caption = ""
 
         finally:
             cam.release()

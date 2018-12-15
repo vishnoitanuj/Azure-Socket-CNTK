@@ -18,15 +18,42 @@ limitations under the License.
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/static/dh_config/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Staatliches" rel="stylesheet">
 </head>
 <body>
 
-<div class="header">
-  <div class="devecihive-logo-text"></div>
-</div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+              <a class="navbar-brand" href="#">
+                  <img src="http://developers.overwolf.com/wp-content/uploads/2016/02/main-eye.png" style="display: inline-block; width: 15%; margin-top: -0.5em">
+                  <span style="display: inline-block; color: azure; font-family: 'Staatliches', cursive;">TriNetra</span>
+                </a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+          </ul>
+        </div>
+      </nav>
 
-<div class="content">
-  <img width="100%" src="/stream/">
+<!-- <div class="header">
+  <div class="devecihive-logo-text"></div>
+</div> -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 content">
+          <h2>Survelliance Cam 1</h2>
+          <img width="100%" src="/stream/">
+        </div>
+      
+        <div class="col-md-6 content">
+            <h2>Survelliance Cam 2</h2>
+            <img width="100%" src="/stream/">
+          </div>
+      </div>
 </div>
 
 </body>
