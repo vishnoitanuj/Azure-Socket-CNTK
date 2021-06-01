@@ -4,7 +4,7 @@ devicehive-webconfig==1.0.2
 six==1.11.0
 pafy==0.5.3.1
 youtube-dl==2017.11.15
-urllib3==1.22
+urllib3==1.26.5
 sinchsms==1.0.4
 scipy==1.1.0
 Pillow==5.1.0
