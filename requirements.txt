@@ -7,7 +7,7 @@ youtube-dl==2017.11.15
 urllib3==1.22
 sinchsms==1.0.4
 scipy==1.1.0
-Pillow==5.1.0
+Pillow==9.3.0
 matplotlib==2.2.2
 Flask==0.12.2
 Flask-Compress==1.4.0
